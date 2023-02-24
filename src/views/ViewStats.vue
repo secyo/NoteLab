@@ -20,12 +20,13 @@
           <td>{{storeNotes.totalCharactersCount}}</td>
         </tr>
         <tr>
-          <td><input
-    v-model="notelab"
-    id="myInput"
-    v-autofocus
-    placeholder = "do you like notelab?"
-    ></td>
+          <td>
+          <input
+            v-model="notelab"
+            v-autofocus
+            id="myInput"
+            placeholder = "do you like notelab?"
+          ></td>
           
         </tr>
       </tbody>

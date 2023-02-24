@@ -1,15 +1,15 @@
 <template>
     <v-tabs
-    v-model="active_tab"
-      fixed-tabs
+      v-model="active_tab"
       bg-color="accent-darken-2"
+      fixed-tabs
     >
       <v-tab
-      v-for="tab in tabs"
-      :key="tab.id"
-      :value="tab.id">
+        v-for="tab in tabs"
+        :key="tab.id"
+        :value="tab.id"
+      >
       {{ tab.name }}
-      {{ active_tab }}
       </v-tab>
     </v-tabs>
     <v-container>
@@ -56,11 +56,17 @@
 <script setup>
 import { ref,computed, reactive} from 'vue';
 import { useStoreAuth } from '@/stores/storeAuth';
+
+
+// store
 const storeAuth = useStoreAuth()
+// login or register
 const formTitle = computed(() =>{
   return (active_tab.value == 1 ? 'Login' : 'Register')
 })
+
 const active_tab= ref(1)
+// tabs
 const tabs = [
   
   {
@@ -73,14 +79,14 @@ const tabs = [
   },
 ]
 /*
-credentials
+  credential
 */
 const credential = reactive({
   email: '',
   password: '',
 })
 /*  
-submit
+  submit
 */
 const onsubmit = () => {
   if (!credential.email || !credential.password) {
@@ -88,12 +94,11 @@ const onsubmit = () => {
   }
   else {
     if(active_tab.value == 2) {
-      console.log('credential:', credential)
+      console.log('register credential:', credential)
       storeAuth.createUser(credential)
-
     }
     else {
-      console.log('credential:', credential)
+      console.log('login credential:', credential)
       storeAuth.loginUser(credential)
     }
   }

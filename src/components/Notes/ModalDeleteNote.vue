@@ -1,13 +1,14 @@
 <template>
   <v-row justify="center">
     <v-dialog
-        v-model="props.modelValue"
-      persistent
+      v-model="props.modelValue"
       width="auto"
+      persistent
     >
       
       <v-card
-      ref="modalCardRef">
+        ref="modalCardRef"
+      >
         <v-card-title class="text-h5">
           Delete Note
         </v-card-title>
@@ -15,16 +16,16 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
+            @click="closeModal"
             color="green-darken-1"
             variant="text"
-            @click="closeModal"
           >
             Cancel
           </v-btn>
           <v-btn
+            @click="storeNotes.deleteNote(props.id)"
             color="red-darken-1"
             variant="text"
-            @click="storeNotes.deleteNote(props.id)"
           >
             Delete
           </v-btn>
@@ -33,6 +34,7 @@
     </v-dialog>
   </v-row>
 </template>
+
 <script setup>
 /*
 imports
@@ -44,8 +46,6 @@ import { useStoreNotes } from '@/stores/storeNotes';
     stores
 */ 
     const storeNotes = useStoreNotes()
-
-
 /*
 emits
 */
@@ -63,7 +63,9 @@ const props = defineProps({
         required: true
     }
 })
-
+/*
+  handle close clicked
+*/
 const closeModal = () => {
     emit('update:modelValue',false)
 }
@@ -76,7 +78,7 @@ on clik outside
 */
 onClickOutside(modalCardRef,closeModal)
 /*
-keyboard control
+keyboard control for esc
 */
 const handleKeyboard = e => {
         if(e.key  === 'Escape') closeModal()
@@ -87,4 +89,5 @@ onMounted(() => {
 onUnmounted(() => {
     document.removeEventListener('keyup', handleKeyboard)
 })
+
 </script>

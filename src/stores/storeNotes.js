@@ -3,30 +3,39 @@ import { db } from '../js/firebase'
 import { collection, doc, 
   query, orderBy, limit, 
   onSnapshot, deleteDoc, 
-  updateDoc, addDoc } from 'firebase/firestore';
-const notesCollectionRef = collection(db, 'notes')
-const notesCollectionQuery = query(notesCollectionRef, orderBy('date','desc'));
+  updateDoc, addDoc 
+} from 'firebase/firestore'
+import { useStoreAuth } from '@/stores/storeAuth'
+
+let notesCollectionRef
+let notesCollectionQuery
+let getNotesSnapshot = null
 
 export const useStoreNotes = defineStore('storeNotes', {
   state: () => {
     return { 
         notes: [
-            // {
-            //     id: 'id1',
-            //     content:'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Officiis fugit velit eveniet deserunt id animi perferendis magni. Animi cupiditate nemo ab est necessitatibus sunt sapiente porro esse debitis, eum in? '
-            // },
-            // {
-            //   id: 'id2',
-            //   content:'Short text. '
-            // }
+          // note1:{
+          //   id: qmejqgyegquheşqw,
+          //   date: 2301293012903,
+          //   content: "Hello this is a note"
+          // }
         ],
         notesLoaded: false,
     }
   },
   actions: {
+    init() {
+      const storeAuth = useStoreAuth()
+      console.log(storeAuth.user.id)
+      notesCollectionRef = collection(db, 'users', storeAuth.user.id ,'notes')
+      notesCollectionQuery = query(notesCollectionRef, orderBy('date','desc'));
+      this.getNotes()
+    },
     async getNotes() {
       this.notesLoaded = false
-      onSnapshot(notesCollectionQuery, (querySnapshot) => {
+      if (getNotesSnapshot) getNotesSnapshot() //unsubscribe form snapshot listener
+      getNotesSnapshot = onSnapshot(notesCollectionQuery, (querySnapshot) => {
         let notes = []
         querySnapshot.forEach((doc) => {
           let note = {
@@ -38,19 +47,14 @@ export const useStoreNotes = defineStore('storeNotes', {
         })
 
         this.notesLoaded = true
-        this.notes=notes
-
-        
+        this.notes=notes        
+      }, error => {
+        console.log('error:', error.message)
       })
     },
     async addNote(newNoteContent) {
       let date = new Date().getTime().toString()
-      // let note = {
-      //   id,
-      //   content: newNoteContent,
-      // }
-      // this.notes.unshift(note)
-      await addDoc(collection(db, "notes"), {
+      await addDoc(notesCollectionRef, {
         content: newNoteContent,
         date
       });
@@ -59,7 +63,7 @@ export const useStoreNotes = defineStore('storeNotes', {
         // let noteToRemove = this.notes.find(el => el.id === idToDelete)
         // let indexToRemove = this.notes.indexOf(noteToRemove)
         // this.notes.splice(indexToRemove,1)
-        await deleteDoc(doc(db, "notes", idToDelete));
+        await deleteDoc(doc(notesCollectionRef, idToDelete));
     },
     getNoteContent(idToEdit) {
       let note = this.notes.find(el => el.id === idToEdit)
@@ -69,10 +73,13 @@ export const useStoreNotes = defineStore('storeNotes', {
       // let noteToSave = this.notes.find(el => el.id === idToSave)
       //   let indexToSave = this.notes.indexOf(noteToSave)
       //   this.notes[indexToSave].content = textContent.value
-        await updateDoc(doc(db, "notes", idToSave), {
+        await updateDoc(doc(notesCollectionRef, idToSave), {
           content: textContent.value
         });
 
+    },
+    clearNotes() {
+      this.notes = []
     }
   },
   getters: {

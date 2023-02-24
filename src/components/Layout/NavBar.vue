@@ -10,24 +10,28 @@
       <v-app-bar
         color="primary"
         density="compact"
-        elevation="10"     
+        elevation="10"
       >
         <v-app-bar-title>NoteLab</v-app-bar-title> 
           <div class="link" >
             <v-btn
-              variant="plain"
-              class="bg-blue-darken-4"
+              v-if="storeAuth.user.id"
               @click="storeAuth.signoutUser"
-            >Log Out</v-btn> |
-            <v-btn
-              to="/"
               class="bg-blue-darken-4"
+              to="/auth"
               variant="plain"
-            >Notes</v-btn> | 
+            >
+            Log Out {{ storeAuth.user.email }}</v-btn> |
             <v-btn
+              class="bg-blue-darken-4"
+              to="/"
+              variant="plain"
+            >
+            Notes</v-btn> | 
+            <v-btn
+              class="bg-blue-darken-4"
               to="/stats"
               variant="plain"
-              class="bg-blue-darken-4"
             >Stats</v-btn>
           </div>       
       </v-app-bar>
@@ -36,16 +40,20 @@
 </v-container>
 </template>
 <script setup>
+// imports
 import { useStoreAuth } from '@/stores/storeAuth';
+// store
 const storeAuth = useStoreAuth()
 
 
 </script>
+
 <style scoped>
 .link > *{
   text-decoration: none;
   color:yellowgreen;
-  margin: 10px
+  margin: 10px;
+  text-transform: lowercase;
 }
 
 

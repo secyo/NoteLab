@@ -4,38 +4,40 @@
     placeholder="Add a new note..."
     ref="addEditNoteRef"
   >
-  <template #buttons>
-    <v-btn
-      :disabled="!newNote"
-      @click="addNote"
-      id="myBtn"
-      class="float-right"
-    >Add  Note...</v-btn>
-  </template>
+    <template #buttons>
+      <v-btn
+        :disabled="!newNote"
+        @click="addNote"
+        id="myBtn"
+        class="float-right"
+      >Add  Note...</v-btn>
+    </template>
   </AddEditNote>
+
   <v-progress-linear
     v-if="!storeNotes.notesLoaded"
-    indeterminate
     color="teal"
+    indeterminate
   ></v-progress-linear>
-    <v-template
-    v-if="storeNotes.notesLoaded">
+
+  <v-template
+  v-if="storeNotes.notesLoaded">
     <v-row
       class="flex-wrap "
     >
       <v-col
-      v-for="note in storeNotes.notes"
+        v-for="note in storeNotes.notes"
+        class="flex-grow-0 flex-shrink-0"
         cols="4"
         style="min-width: 100px;"
-        class="flex-grow-0 flex-shrink-0"
       >
-      <Note
-      :key="note.id"
-      :note="note"
-      />
+        <Note
+          :key="note.id"
+          :note="note"
+        />
       </v-col>
-      </v-row>
-    </v-template>
+    </v-row>
+  </v-template>
 </template>
 <script setup>
 /*
@@ -66,4 +68,6 @@ useWatchCharacters(newNote)
     newNote.value= ''
     document.getElementById('myInput').focus()
   }
+
+
 </script>

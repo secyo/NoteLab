@@ -1,23 +1,23 @@
 <template>
-    <AddEditNote
+  <AddEditNote
     v-model="noteContent"
-  ref="addEditNoteRef"
-  bgColor="green"
-  placeholder="Edit note"
-  label="Edit Note"
+    bgColor="green"
+    label="Edit Note"
+    placeholder="Edit note"
+    ref="addEditNoteRef"
   >
-  <template #buttons>
-    <v-btn
-        class="float-right"
+    <template #buttons>
+      <v-btn
         @click="$router.push('/')"
-      >Cancel</v-btn>
-    <v-btn
-        id="myBtn"
         class="float-right"
+      >Cancel</v-btn>
+      <v-btn
         :disabled="!noteContent"
         @click="saveNoteHandle"
+        id="myBtn"
+        class="float-right"
       >Save Note</v-btn>
-  </template>
+    </template>
   </AddEditNote>
 </template>
 
