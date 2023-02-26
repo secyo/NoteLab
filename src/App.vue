@@ -1,10 +1,5 @@
 <template>
-
     <NavBar />
-  
-  <v-container class="mt-15">
-    <RouterView />
-  </v-container>
 </template>
 
 <script setup>

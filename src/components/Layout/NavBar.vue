@@ -10,7 +10,7 @@
       <v-app-bar
         color="primary"
         density="compact"
-        elevation="10"
+        elevation="5"
       >
         <v-app-bar-title>NoteLab</v-app-bar-title> 
           <div class="link" >
@@ -38,10 +38,17 @@
     </v-layout>
   </v-card>
 </v-container>
+<v-app class="bg-blue-lighten-3">
+  <v-container class="my-15">
+    <RouterView />
+    <FooterBar/>
+  </v-container>
+</v-app>
 </template>
 <script setup>
 // imports
-import { useStoreAuth } from '@/stores/storeAuth';
+import { useStoreAuth } from '@/stores/storeAuth'
+import FooterBar from '@/components/Layout/FooterBar.vue'
 // store
 const storeAuth = useStoreAuth()
 
