@@ -54,7 +54,7 @@ const props = defineProps({
 /*
   emits
 */
-const emit = defineEmits(['update:modelValue'])
+// const emit = defineEmits(['update:modelValue'])
 
 /*
   focus text area 

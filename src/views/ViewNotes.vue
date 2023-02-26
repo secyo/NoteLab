@@ -1,18 +1,21 @@
 <template>
-  <AddEditNote
+  <v-template>
+    <AddEditNote
     v-model="newNote"
     placeholder="Add a new note..."
     ref="addEditNoteRef"
-  >
-    <template #buttons>
-      <v-btn
+    >
+      <template #buttons>
+        <v-btn
         :disabled="!newNote"
         @click="addNote"
         id="myBtn"
         class="float-right"
-      >Add  Note...</v-btn>
-    </template>
-  </AddEditNote>
+        >Add  Note...</v-btn>
+      </template>
+    </AddEditNote> 
+  </v-template>
+
 
   <v-progress-linear
     v-if="!storeNotes.notesLoaded"
